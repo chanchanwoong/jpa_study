@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -70,4 +72,22 @@ public interface ProductRepository extends JpaRepository<Product, Long> {       
 
     // 페이징 처리
     Page<Product> findByName(String name, Pageable pageable);
+
+
+    // @Query 어노테이션 JPQL
+    // 파라미터 순서 지정 방식
+    @Query("SELECT p FROM Product p WHERE p.name = ?1")
+    List<Product> findByName(String name);
+
+    // @Param 어노테이션으로 변수 바인딩 방식
+    @Query("SELECT p FROM Product p WHERE p.name = :name")
+    List<Product> findByNameParam(@Param("name") String name);
+
+    // 특정 컬럼 값 추출
+    // 반환은 List<Object[]> 으로 지정해야 한다.
+    @Query("SELECT p.name, p.price, p.stock FROM Product p WHERE p.name = :name")
+    List<Object[]> findByNameParam2(@Param("name") String name);
+
+
+
 }
