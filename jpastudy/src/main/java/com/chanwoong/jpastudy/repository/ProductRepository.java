@@ -1,6 +1,8 @@
 package com.chanwoong.jpastudy.repository;
 
 import com.chanwoong.jpastudy.entity.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -65,4 +67,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {       
     // productRepository.findByName("펜", Sort.by(Order.asc("price"), Order.desc("stock"))) 코드로 사용
     List<Product> findByName(String name, Sort sort);
 
+
+    // 페이징 처리
+    Page<Product> findByName(String name, Pageable pageable);
 }
